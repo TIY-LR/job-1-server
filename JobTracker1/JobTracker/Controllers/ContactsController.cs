@@ -31,8 +31,8 @@ namespace JobTracker.Controllers
                               email = c.Email,
                               officeNumber = c.OfficeNumber,
                               cellNumber = c.CellNumber,
-                              address1 = c.Address1,
-                              address2 = c.Address2,
+                              addressOne = c.Address1,
+                              addressTwo = c.Address2,
                               city = c.City,
                               state = c.State,
                               zip = c.Zip
@@ -42,16 +42,30 @@ namespace JobTracker.Controllers
         }
 
         // GET: api/Contacts/5
-        [ResponseType(typeof(Contact))]
-        public IHttpActionResult GetContact(int id)
+        [ResponseType(typeof(object))]
+        public object GetContact(int id)
         {
-            Contact contact = db.Contacts.Find(id);
+            var contact = db.Contacts.Find(id);
             if (contact == null)
             {
                 return NotFound();
             }
-
-            return Ok(contact);
+            var display = new
+            {
+                id = contact.Id,
+                firstName = contact.FirstName,
+                lastName = contact.LastName,
+                organization = contact.Organization.Name,
+                email = contact.Email,
+                officeNumber = contact.OfficeNumber,
+                cellNumber = contact.CellNumber,
+                addressOne = contact.Address1,
+                addressTwo = contact.Address2,
+                city = contact.City,
+                state = contact.State,
+                zip = contact.Zip
+            };
+            return Ok(new {contact = display });
         }
 
         // PUT: api/Contacts/5
