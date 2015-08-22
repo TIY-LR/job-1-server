@@ -74,17 +74,17 @@ namespace JobTracker.Controllers
 
         // POST: api/Resumes
         [ResponseType(typeof(Resume))]
-        public IHttpActionResult PostResume(Resume resume)
+        public IHttpActionResult PostResume(RootObjectResume rootresume)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Resumes.Add(resume);
+            db.Resumes.Add(rootresume.Resume);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = resume.Id }, resume);
+            return CreatedAtRoute("DefaultApi", new { id = rootresume.Resume.Id }, rootresume.Resume);
         }
 
         // DELETE: api/Resumes/5

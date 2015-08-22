@@ -81,10 +81,10 @@ namespace JobTracker.Controllers
                 return BadRequest(ModelState);
             }
            
-                db.Contacts.Add(rootcontacts.contact);
+                db.Contacts.Add(rootcontacts.Contact);
                 db.SaveChanges();
             
-            return CreatedAtRoute("DefaultApi", new { id = rootcontacts.contact.Id }, rootcontacts.contact);
+            return CreatedAtRoute("DefaultApi", new { id = rootcontacts.Contact.Id }, rootcontacts.Contact);
 
         }
 
