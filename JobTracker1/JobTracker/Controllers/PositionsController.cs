@@ -9,11 +9,13 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using JobTracker.Models;
+using System.Web.Http.Cors;
 
 namespace JobTracker.Controllers
 {
     public class PositionsController : ApiController
     {
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Positions
