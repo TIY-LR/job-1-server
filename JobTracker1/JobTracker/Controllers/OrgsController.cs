@@ -2,117 +2,103 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
 using JobTracker.Models;
 
 namespace JobTracker.Controllers
 {
-    public class OrgsController : Controller
+    public class OrgsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Orgs
-        public ActionResult Index()
+        // GET: api/Orgs
+        public IQueryable<Org> GetOrgs()
         {
-            return View(db.Orgs.ToList());
+            return db.Orgs;
         }
 
-        // GET: Orgs/Details/5
-        public ActionResult Details(int? id)
+        // GET: api/Orgs/5
+        [ResponseType(typeof(Org))]
+        public IHttpActionResult GetOrg(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Org org = db.Orgs.Find(id);
             if (org == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(org);
+
+            return Ok(org);
         }
 
-        // GET: Orgs/Create
-        public ActionResult Create()
+        // PUT: api/Orgs/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutOrg(int id, Org org)
         {
-            return View();
-        }
-
-        // POST: Orgs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address1,Address2,City,State,Zip,Website,Email,Phone")] Org org)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Orgs.Add(org);
+                return BadRequest(ModelState);
+            }
+
+            if (id != org.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(org).State = EntityState.Modified;
+
+            try
+            {
                 db.SaveChanges();
-                return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrgExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return View(org);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: Orgs/Edit/5
-        public ActionResult Edit(int? id)
+        // POST: api/Orgs
+        [ResponseType(typeof(Org))]
+        public IHttpActionResult PostOrg(Org org)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return BadRequest(ModelState);
             }
+
+            db.Orgs.Add(org);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = org.Id }, org);
+        }
+
+        // DELETE: api/Orgs/5
+        [ResponseType(typeof(Org))]
+        public IHttpActionResult DeleteOrg(int id)
+        {
             Org org = db.Orgs.Find(id);
             if (org == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(org);
-        }
 
-        // POST: Orgs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address1,Address2,City,State,Zip,Website,Email,Phone")] Org org)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(org).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(org);
-        }
-
-        // GET: Orgs/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Org org = db.Orgs.Find(id);
-            if (org == null)
-            {
-                return HttpNotFound();
-            }
-            return View(org);
-        }
-
-        // POST: Orgs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Org org = db.Orgs.Find(id);
             db.Orgs.Remove(org);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Ok(org);
         }
 
         protected override void Dispose(bool disposing)
@@ -122,6 +108,11 @@ namespace JobTracker.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool OrgExists(int id)
+        {
+            return db.Orgs.Count(e => e.Id == id) > 0;
         }
     }
 }

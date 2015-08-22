@@ -2,117 +2,103 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
 using JobTracker.Models;
 
 namespace JobTracker.Controllers
 {
-    public class ContactsController : Controller
+    public class ContactsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Contacts
-        public ActionResult Index()
+        // GET: api/Contacts
+        public IQueryable<Contact> GetContacts()
         {
-            return View(db.Contacts.ToList());
+            return db.Contacts;
         }
 
-        // GET: Contacts/Details/5
-        public ActionResult Details(int? id)
+        // GET: api/Contacts/5
+        [ResponseType(typeof(Contact))]
+        public IHttpActionResult GetContact(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Contact contact = db.Contacts.Find(id);
             if (contact == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(contact);
+
+            return Ok(contact);
         }
 
-        // GET: Contacts/Create
-        public ActionResult Create()
+        // PUT: api/Contacts/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutContact(int id, Contact contact)
         {
-            return View();
-        }
-
-        // POST: Contacts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,LastName,FirstName,OfficeNumber,CellNumber,Address1,Address2,City,State,Zip")] Contact contact)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Contacts.Add(contact);
+                return BadRequest(ModelState);
+            }
+
+            if (id != contact.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(contact).State = EntityState.Modified;
+
+            try
+            {
                 db.SaveChanges();
-                return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ContactExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return View(contact);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: Contacts/Edit/5
-        public ActionResult Edit(int? id)
+        // POST: api/Contacts
+        [ResponseType(typeof(Contact))]
+        public IHttpActionResult PostContact(Contact contact)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return BadRequest(ModelState);
             }
+
+            db.Contacts.Add(contact);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = contact.Id }, contact);
+        }
+
+        // DELETE: api/Contacts/5
+        [ResponseType(typeof(Contact))]
+        public IHttpActionResult DeleteContact(int id)
+        {
             Contact contact = db.Contacts.Find(id);
             if (contact == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(contact);
-        }
 
-        // POST: Contacts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,LastName,FirstName,OfficeNumber,CellNumber,Address1,Address2,City,State,Zip")] Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(contact).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(contact);
-        }
-
-        // GET: Contacts/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: Contacts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Contact contact = db.Contacts.Find(id);
             db.Contacts.Remove(contact);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Ok(contact);
         }
 
         protected override void Dispose(bool disposing)
@@ -122,6 +108,11 @@ namespace JobTracker.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool ContactExists(int id)
+        {
+            return db.Contacts.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -2,117 +2,103 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
 using JobTracker.Models;
 
 namespace JobTracker.Controllers
 {
-    public class ResumesController : Controller
+    public class ResumesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Resumes
-        public ActionResult Index()
+        // GET: api/Resumes
+        public IQueryable<Resume> GetResumes()
         {
-            return View(db.Resumes.ToList());
+            return db.Resumes;
         }
 
-        // GET: Resumes/Details/5
-        public ActionResult Details(int? id)
+        // GET: api/Resumes/5
+        [ResponseType(typeof(Resume))]
+        public IHttpActionResult GetResume(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Resume resume = db.Resumes.Find(id);
             if (resume == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(resume);
+
+            return Ok(resume);
         }
 
-        // GET: Resumes/Create
-        public ActionResult Create()
+        // PUT: api/Resumes/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutResume(int id, Resume resume)
         {
-            return View();
-        }
-
-        // POST: Resumes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,date,title,content,file")] Resume resume)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Resumes.Add(resume);
+                return BadRequest(ModelState);
+            }
+
+            if (id != resume.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(resume).State = EntityState.Modified;
+
+            try
+            {
                 db.SaveChanges();
-                return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ResumeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return View(resume);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: Resumes/Edit/5
-        public ActionResult Edit(int? id)
+        // POST: api/Resumes
+        [ResponseType(typeof(Resume))]
+        public IHttpActionResult PostResume(Resume resume)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return BadRequest(ModelState);
             }
+
+            db.Resumes.Add(resume);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = resume.Id }, resume);
+        }
+
+        // DELETE: api/Resumes/5
+        [ResponseType(typeof(Resume))]
+        public IHttpActionResult DeleteResume(int id)
+        {
             Resume resume = db.Resumes.Find(id);
             if (resume == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(resume);
-        }
 
-        // POST: Resumes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,date,title,content,file")] Resume resume)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(resume).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(resume);
-        }
-
-        // GET: Resumes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Resume resume = db.Resumes.Find(id);
-            if (resume == null)
-            {
-                return HttpNotFound();
-            }
-            return View(resume);
-        }
-
-        // POST: Resumes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Resume resume = db.Resumes.Find(id);
             db.Resumes.Remove(resume);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Ok(resume);
         }
 
         protected override void Dispose(bool disposing)
@@ -122,6 +108,11 @@ namespace JobTracker.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool ResumeExists(int id)
+        {
+            return db.Resumes.Count(e => e.Id == id) > 0;
         }
     }
 }

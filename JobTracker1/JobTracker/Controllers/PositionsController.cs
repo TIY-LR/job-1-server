@@ -2,117 +2,103 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
 using JobTracker.Models;
 
 namespace JobTracker.Controllers
 {
-    public class PositionsController : Controller
+    public class PositionsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Positions
-        public ActionResult Index()
+        // GET: api/Positions
+        public IQueryable<Position> GetPositions()
         {
-            return View(db.Positions.ToList());
+            return db.Positions;
         }
 
-        // GET: Positions/Details/5
-        public ActionResult Details(int? id)
+        // GET: api/Positions/5
+        [ResponseType(typeof(Position))]
+        public IHttpActionResult GetPosition(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Position position = db.Positions.Find(id);
             if (position == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(position);
+
+            return Ok(position);
         }
 
-        // GET: Positions/Create
-        public ActionResult Create()
+        // PUT: api/Positions/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutPosition(int id, Position position)
         {
-            return View();
-        }
-
-        // POST: Positions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Education,Experience,SalaryMin,SalaryMax,Description")] Position position)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Positions.Add(position);
+                return BadRequest(ModelState);
+            }
+
+            if (id != position.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(position).State = EntityState.Modified;
+
+            try
+            {
                 db.SaveChanges();
-                return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PositionExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return View(position);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: Positions/Edit/5
-        public ActionResult Edit(int? id)
+        // POST: api/Positions
+        [ResponseType(typeof(Position))]
+        public IHttpActionResult PostPosition(Position position)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return BadRequest(ModelState);
             }
+
+            db.Positions.Add(position);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = position.Id }, position);
+        }
+
+        // DELETE: api/Positions/5
+        [ResponseType(typeof(Position))]
+        public IHttpActionResult DeletePosition(int id)
+        {
             Position position = db.Positions.Find(id);
             if (position == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(position);
-        }
 
-        // POST: Positions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Education,Experience,SalaryMin,SalaryMax,Description")] Position position)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(position).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(position);
-        }
-
-        // GET: Positions/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Position position = db.Positions.Find(id);
-            if (position == null)
-            {
-                return HttpNotFound();
-            }
-            return View(position);
-        }
-
-        // POST: Positions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Position position = db.Positions.Find(id);
             db.Positions.Remove(position);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Ok(position);
         }
 
         protected override void Dispose(bool disposing)
@@ -122,6 +108,11 @@ namespace JobTracker.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool PositionExists(int id)
+        {
+            return db.Positions.Count(e => e.Id == id) > 0;
         }
     }
 }

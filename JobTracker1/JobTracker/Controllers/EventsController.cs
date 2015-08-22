@@ -2,117 +2,103 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
 using JobTracker.Models;
 
 namespace JobTracker.Controllers
 {
-    public class EventsController : Controller
+    public class EventsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Events
-        public ActionResult Index()
+        // GET: api/Events
+        public IQueryable<Event> GetEvents()
         {
-            return View(db.Events.ToList());
+            return db.Events;
         }
 
-        // GET: Events/Details/5
-        public ActionResult Details(int? id)
+        // GET: api/Events/5
+        [ResponseType(typeof(Event))]
+        public IHttpActionResult GetEvent(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Event @event = db.Events.Find(id);
             if (@event == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(@event);
+
+            return Ok(@event);
         }
 
-        // GET: Events/Create
-        public ActionResult Create()
+        // PUT: api/Events/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutEvent(int id, Event @event)
         {
-            return View();
-        }
-
-        // POST: Events/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Type,Initiated,FollowUp,IsOpen,Notes")] Event @event)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Events.Add(@event);
+                return BadRequest(ModelState);
+            }
+
+            if (id != @event.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(@event).State = EntityState.Modified;
+
+            try
+            {
                 db.SaveChanges();
-                return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EventExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return View(@event);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: Events/Edit/5
-        public ActionResult Edit(int? id)
+        // POST: api/Events
+        [ResponseType(typeof(Event))]
+        public IHttpActionResult PostEvent(Event @event)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return BadRequest(ModelState);
             }
+
+            db.Events.Add(@event);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
+        }
+
+        // DELETE: api/Events/5
+        [ResponseType(typeof(Event))]
+        public IHttpActionResult DeleteEvent(int id)
+        {
             Event @event = db.Events.Find(id);
             if (@event == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(@event);
-        }
 
-        // POST: Events/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Type,Initiated,FollowUp,IsOpen,Notes")] Event @event)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(@event);
-        }
-
-        // GET: Events/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@event);
-        }
-
-        // POST: Events/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Event @event = db.Events.Find(id);
             db.Events.Remove(@event);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Ok(@event);
         }
 
         protected override void Dispose(bool disposing)
@@ -122,6 +108,11 @@ namespace JobTracker.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool EventExists(int id)
+        {
+            return db.Events.Count(e => e.Id == id) > 0;
         }
     }
 }
