@@ -75,6 +75,9 @@ namespace JobTracker.Controllers
         // POST: api/Contacts
         [ResponseType(typeof(Contact))]
         public IHttpActionResult PostContact(Contact contact)
+
+            
+
         {
             if (!ModelState.IsValid)
             {

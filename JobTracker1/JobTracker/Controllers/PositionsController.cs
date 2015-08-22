@@ -13,9 +13,10 @@ using System.Web.Http.Cors;
 
 namespace JobTracker.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PositionsController : ApiController
     {
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+      
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Positions
