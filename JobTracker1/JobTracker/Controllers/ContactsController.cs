@@ -50,21 +50,23 @@ namespace JobTracker.Controllers
             {
                 return NotFound();
             }
-            var display = new
-            {
-                id = contact.Id,
-                firstName = contact.FirstName,
-                lastName = contact.LastName,
-                organization = contact.Organization.Name,
-                email = contact.Email,
-                officeNumber = contact.OfficeNumber,
-                cellNumber = contact.CellNumber,
-                addressOne = contact.Address1,
-                addressTwo = contact.Address2,
-                city = contact.City,
-                state = contact.State,
-                zip = contact.Zip
-            };
+            var display = from c in db.Contacts
+                          where c.Id == id
+                          select new
+                          {
+                              id = c.Id,
+                              firstName = c.FirstName,
+                              lastName = c.LastName,
+                              organization = c.Organization.Name,
+                              email = c.Email,
+                              officeNumber = c.OfficeNumber,
+                              cellNumber = c.CellNumber,
+                              addressOne = c.Address1,
+                              addressTwo = c.Address2,
+                              city = c.City,
+                              state = c.State,
+                              zip = c.Zip
+                          };
             return Ok(new {contact = display });
         }
 
