@@ -38,7 +38,7 @@ namespace JobTracker.Controllers
                               zip = c.Zip
 
                           };
-            return new { contacts = displaylist };
+            return new { contact = displaylist };
         }
 
         // GET: api/Contacts/5

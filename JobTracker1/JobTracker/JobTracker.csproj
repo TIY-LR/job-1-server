@@ -234,6 +234,14 @@
     <Compile Include="Migrations\201508220352328_two.Designer.cs">
       <DependentUpon>201508220352328_two.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508222230076_two1.cs" />
+    <Compile Include="Migrations\201508222230076_two1.Designer.cs">
+      <DependentUpon>201508222230076_two1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508222230540_three.cs" />
+    <Compile Include="Migrations\201508222230540_three.Designer.cs">
+      <DependentUpon>201508222230540_three.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model1.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -327,6 +335,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508220352328_two.resx">
       <DependentUpon>201508220352328_two.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508222230076_two1.resx">
+      <DependentUpon>201508222230076_two1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508222230540_three.resx">
+      <DependentUpon>201508222230540_three.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

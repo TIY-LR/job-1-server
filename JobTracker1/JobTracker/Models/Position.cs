@@ -8,6 +8,7 @@ namespace JobTracker.Models
     public class Position
     {
         public int Id { get; set; }
+        public string Title { get; set; }
         public Org Organization { get; set; }
         public string Education { get; set; }
         public string Experience { get; set; }

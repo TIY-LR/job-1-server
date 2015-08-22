@@ -81,3 +81,5 @@ C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Deb
 C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Debug\JobTracker.dll
 C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Debug\JobTracker.pdb
 C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Debug\JobTracker.csprojResolveAssemblyReference.cache
+C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Debug\JobTracker.Migrations.two1.resources
+C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Debug\JobTracker.Migrations.three.resources

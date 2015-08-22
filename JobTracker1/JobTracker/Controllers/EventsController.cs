@@ -19,22 +19,50 @@ namespace JobTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Events
-        public IQueryable<Event> GetEvents()
+        public object GetEvents()
         {
-            return db.Events;
+            var display = from e in db.Events
+                          select new
+                          {
+                              id = e.Id,
+                              title = e.Title,
+                              date = e.Date,
+                              time = e.Time,
+                              location = e.Organization.Name,
+                              orgId = e.Organization.Id,
+                              job = e.Position.Title,
+                              positionId = e.Position.Id,
+                              contact = e.Contact.FirstName + " " + e.Contact.LastName,
+                              contactId = e.Contact.Id
+                          };
+            return new {events = display };
         }
 
         // GET: api/Events/5
-        [ResponseType(typeof(Event))]
-        public IHttpActionResult GetEvent(int id)
+        [ResponseType(typeof(object))]
+        public object GetEvent(int id)
         {
-            Event @event = db.Events.Find(id);
-            if (@event == null)
+            var display = from e in db.Events
+                          where e.Id == id
+                          select new
+                          {
+                              id = e.Id,
+                              title = e.Title,
+                              date = e.Date,
+                              time = e.Time,
+                              location = e.Organization.Name,
+                              orgId = e.Organization.Id,
+                              job = e.Position.Title,
+                              positionId = e.Position.Id,
+                              contact = e.Contact.FirstName + " " + e.Contact.LastName,
+                              contactId = e.Contact.Id
+                          };
+            if (display == null)
             {
                 return NotFound();
             }
 
-            return Ok(@event);
+            return Ok(new {@event = display });
         }
 
         // PUT: api/Events/5
