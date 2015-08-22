@@ -24,6 +24,7 @@ namespace JobTracker.Controllers
             var displaylist = from c in db.Contacts
                           select new
                           {
+                              id = c.Id,
                               firstName = c.FirstName,
                               lastName = c.LastName,
                               organization = c.Organization.Name,
