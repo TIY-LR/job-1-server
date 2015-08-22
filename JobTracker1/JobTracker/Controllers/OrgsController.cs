@@ -73,18 +73,18 @@ namespace JobTracker.Controllers
         }
 
         // POST: api/Orgs
-        [ResponseType(typeof(Org))]
-        public IHttpActionResult PostOrg(Org org)
+        [ResponseType(typeof(RootObject))]
+        public IHttpActionResult PostOrg(RootObject rootorg)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Orgs.Add(org);
+            db.Orgs.Add(rootorg.Org);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = org.Id }, org);
+            return CreatedAtRoute("DefaultApi", new { id = rootorg.Org.Id }, rootorg.Org);
         }
 
         // DELETE: api/Orgs/5

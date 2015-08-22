@@ -73,8 +73,8 @@ namespace JobTracker.Controllers
         }
 
         // POST: api/Resumes
-        [ResponseType(typeof(Resume))]
-        public IHttpActionResult PostResume(RootObjectResume rootresume)
+        [ResponseType(typeof(RootObject))]
+        public IHttpActionResult PostResume(RootObject rootresume)
         {
             if (!ModelState.IsValid)
             {

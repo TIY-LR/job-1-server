@@ -74,18 +74,18 @@ namespace JobTracker.Controllers
         }
 
         // POST: api/Positions
-        [ResponseType(typeof(Position))]
-        public IHttpActionResult PostPosition(Position position)
+        [ResponseType(typeof(RootObject))]
+        public IHttpActionResult PostPosition(RootObject rootposition)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Positions.Add(position);
+            db.Positions.Add(rootposition.Position);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = position.Id }, position);
+            return CreatedAtRoute("DefaultApi", new { id = rootposition.Position.Id }, rootposition.Position);
         }
 
         // DELETE: api/Positions/5

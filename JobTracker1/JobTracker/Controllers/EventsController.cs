@@ -73,18 +73,18 @@ namespace JobTracker.Controllers
         }
 
         // POST: api/Events
-        [ResponseType(typeof(Event))]
-        public IHttpActionResult PostEvent(Event @event)
+        [ResponseType(typeof(RootObject))]
+        public IHttpActionResult PostEvent(RootObject rootevent)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Events.Add(@event);
+            db.Events.Add(rootevent.Event);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
+            return CreatedAtRoute("DefaultApi", new { id = rootevent.Event.Id }, rootevent.Event);
         }
 
         // DELETE: api/Events/5

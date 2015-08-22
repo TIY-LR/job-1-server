@@ -5,13 +5,14 @@ using System.Web;
 
 namespace JobTracker.Models
 {
-    public class RootObjectContact
+    
+    public class RootObject
     {
         public Contact Contact { get; set; }
-    }
-    public class RootObjectEvent
-    {
         public Event Event { get; set; }
+        public Org Org { get; set; }
+        public Position Position { get; set; }
+        public Resume Resume { get; set; }
     }
         
 }
