@@ -21,4 +21,18 @@ namespace JobTracker.Models
         public string Zip { get; set; }
         public Org Organization { get; set; }
     }
+    public class ContactVM
+    {
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string OrgName { get; set; }
+        public string OfficeNumber { get; set; }
+        public string CellNumber { get; set; }
+        public string Email { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+            }
 }

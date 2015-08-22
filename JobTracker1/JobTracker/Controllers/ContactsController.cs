@@ -19,9 +19,25 @@ namespace JobTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Contacts
-        public IQueryable<Contact> GetContacts()
+        public object GetContacts()
         {
-            return db.Contacts;
+            var displaylist = from c in db.Contacts
+                          select new
+                          {
+                              firstName = c.FirstName,
+                              lastName = c.LastName,
+                              organization = c.Organization.Name,
+                              email = c.Email,
+                              officeNumber = c.OfficeNumber,
+                              cellNumber = c.CellNumber,
+                              address1 = c.Address1,
+                              address2 = c.Address2,
+                              city = c.City,
+                              state = c.State,
+                              zip = c.Zip
+
+                          };
+            return new { contacts = displaylist };
         }
 
         // GET: api/Contacts/5

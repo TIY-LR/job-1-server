@@ -311,31 +311,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Events\Create.cshtml" />
-    <Content Include="Views\Events\Delete.cshtml" />
-    <Content Include="Views\Events\Details.cshtml" />
-    <Content Include="Views\Events\Edit.cshtml" />
-    <Content Include="Views\Events\Index.cshtml" />
-    <Content Include="Views\Contacts\Create.cshtml" />
-    <Content Include="Views\Contacts\Delete.cshtml" />
-    <Content Include="Views\Contacts\Details.cshtml" />
-    <Content Include="Views\Contacts\Edit.cshtml" />
-    <Content Include="Views\Contacts\Index.cshtml" />
-    <Content Include="Views\Orgs\Create.cshtml" />
-    <Content Include="Views\Orgs\Delete.cshtml" />
-    <Content Include="Views\Orgs\Details.cshtml" />
-    <Content Include="Views\Orgs\Edit.cshtml" />
-    <Content Include="Views\Orgs\Index.cshtml" />
-    <Content Include="Views\Positions\Create.cshtml" />
-    <Content Include="Views\Positions\Delete.cshtml" />
-    <Content Include="Views\Positions\Details.cshtml" />
-    <Content Include="Views\Positions\Edit.cshtml" />
-    <Content Include="Views\Positions\Index.cshtml" />
-    <Content Include="Views\Resumes\Create.cshtml" />
-    <Content Include="Views\Resumes\Delete.cshtml" />
-    <Content Include="Views\Resumes\Details.cshtml" />
-    <Content Include="Views\Resumes\Edit.cshtml" />
-    <Content Include="Views\Resumes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
