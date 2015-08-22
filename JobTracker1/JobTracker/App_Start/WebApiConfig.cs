@@ -26,6 +26,8 @@ namespace JobTracker
                 defaults: new { id = RouteParameter.Optional }
             );
             config.EnableCors();
+
+           
         }
     }
 }

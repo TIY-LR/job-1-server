@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 namespace JobTracker.Models
-{   [JsonObject(Title = "contact")]
+{   
     public class Contact
     {
         public int Id { get; set; }

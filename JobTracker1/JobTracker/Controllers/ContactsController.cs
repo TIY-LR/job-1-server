@@ -73,21 +73,19 @@ namespace JobTracker.Controllers
         }
 
         // POST: api/Contacts
-        [ResponseType(typeof(Contact))]
-        public IHttpActionResult PostContact(Contact contact)
-
-            
-
+        [ResponseType(typeof(RootObjectContact))]
+        public IHttpActionResult PostContact(RootObjectContact rootcontacts)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+           
+                db.Contacts.Add(rootcontacts.contact);
+                db.SaveChanges();
+            
+            return CreatedAtRoute("DefaultApi", new { id = rootcontacts.contact.Id }, rootcontacts.contact);
 
-            db.Contacts.Add(contact);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = contact.Id }, contact);
         }
 
         // DELETE: api/Contacts/5
