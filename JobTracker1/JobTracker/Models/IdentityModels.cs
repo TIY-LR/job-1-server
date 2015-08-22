@@ -29,5 +29,7 @@ namespace JobTracker.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<JobTracker.Models.Event> Events { get; set; }
     }
 }
