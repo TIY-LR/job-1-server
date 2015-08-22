@@ -31,5 +31,13 @@ namespace JobTracker.Models
         }
 
         public System.Data.Entity.DbSet<JobTracker.Models.Event> Events { get; set; }
+
+        public System.Data.Entity.DbSet<JobTracker.Models.Contact> Contacts { get; set; }
+
+        public System.Data.Entity.DbSet<JobTracker.Models.Org> Orgs { get; set; }
+
+        public System.Data.Entity.DbSet<JobTracker.Models.Position> Positions { get; set; }
+
+        public System.Data.Entity.DbSet<JobTracker.Models.Resume> Resumes { get; set; }
     }
 }
