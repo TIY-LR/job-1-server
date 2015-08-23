@@ -29,11 +29,8 @@ namespace JobTracker.Controllers
                               date = e.Date,
                               time = e.Time,
                               location = e.Organization.Name,
-                              orgId = e.Organization.Id,
                               job = e.Position.Title,
-                              positionId = e.Position.Id,
                               contact = e.Contact.FirstName + " " + e.Contact.LastName,
-                              contactId = e.Contact.Id
                           };
             return new {events = display };
         }

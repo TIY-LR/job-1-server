@@ -1,4 +1,4 @@
-namespace JobTracker.Migrations
+ namespace JobTracker.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -47,7 +47,7 @@ namespace JobTracker.Migrations
             context.Contacts.AddOrUpdate(
                 x => x.Email,
                 new Contact { FirstName = "Adam", LastName = "Ant", Address1 = "1313 Mockingbird Lane", CellNumber = "501-867-5309", Email = "adamant@acme.com"},
-                new Contact { FirstName = "Betty", LastName = "Boop", Address1 = "2626 Jaybird", CellNumber = "501-555-2629", Email = "bettyboop@love.org" }
+                new Contact { FirstName = "Betty", LastName = "Boop", Address1 = "2626 Jaybird", CellNumber = "501-555-2629", Email = "bettyboop@love.org"}
                  );
            
             context.Events.AddOrUpdate(
