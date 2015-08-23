@@ -72,19 +72,19 @@ namespace JobTracker.Controllers
 
         // PUT: api/Contacts/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutContact(int id, Contact contact)
+        public IHttpActionResult PutContact(int id, RootObject rootobject)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != contact.Id)
+            if (id != rootobject.Contact.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(contact).State = EntityState.Modified;
+            db.Entry(rootobject.Contact).State = EntityState.Modified;
 
             try
             {
@@ -133,8 +133,9 @@ namespace JobTracker.Controllers
 
             db.Contacts.Remove(contact);
             db.SaveChanges();
-
-            return Ok(contact);
+            RootObject rootobject = new RootObject();
+            rootobject.Contact = contact;
+            return Ok(rootobject.Contact);
         }
 
         protected override void Dispose(bool disposing)
