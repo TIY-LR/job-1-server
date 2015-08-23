@@ -61,6 +61,8 @@
                 new Event { Title = "Interview at Acme", Date = DateTime.Now, Time = DateTime.Now, Org_Id = 1, Contact_Id = 1, Position_Id = 1 },
                 new Event { Title = "Site Visit at PeaceLove", Date = DateTime.Now, Time = DateTime.Now, Org_Id = 2, Contact_Id = 2, Position_Id = 2 }
                 );
+           
+                
 
         }
     }

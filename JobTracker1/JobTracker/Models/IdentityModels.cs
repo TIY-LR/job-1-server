@@ -16,6 +16,11 @@ namespace JobTracker.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public Org Org { get; set; }
+        public int? Org_Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -39,5 +44,7 @@ namespace JobTracker.Models
         public System.Data.Entity.DbSet<JobTracker.Models.Position> Positions { get; set; }
 
         public System.Data.Entity.DbSet<JobTracker.Models.Resume> Resumes { get; set; }
+
+       
     }
 }
