@@ -35,7 +35,7 @@ namespace JobTracker.Controllers
                               description = p.Description,
                               contact = p.Contact.FirstName + " " + p.Contact.LastName,
                           };
-            return new { positions = display };
+            return new { position = display };
         }
 
         // GET: api/Positions/5
@@ -44,6 +44,7 @@ namespace JobTracker.Controllers
         {
             var display = from p in db.Positions
                           where p.Id == id
+                         
                           select new
                           {
                               id = p.Id,
@@ -61,7 +62,7 @@ namespace JobTracker.Controllers
                 return NotFound();
             }
 
-            return Ok(new { @event = display });
+            return Ok(new { position = display });
         }
 
         // PUT: api/Positions/5

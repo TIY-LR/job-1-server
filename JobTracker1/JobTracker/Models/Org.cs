@@ -17,8 +17,8 @@ namespace JobTracker.Models
         public string Website { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public List<Contact> Contacts { get; set; }
-        public List<Position> Positions { get; set; }
+        public virtual List<Contact> Contacts { get; set; }
+        public virtual List<Position> Positions { get; set; }
 
     }
 }

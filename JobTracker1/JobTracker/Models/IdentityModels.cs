@@ -45,6 +45,8 @@ namespace JobTracker.Models
 
         public System.Data.Entity.DbSet<JobTracker.Models.Resume> Resumes { get; set; }
 
+        public System.Data.Entity.DbSet<JobTracker.Models.Profile> Profiles { get; set; }
+
        
     }
 }

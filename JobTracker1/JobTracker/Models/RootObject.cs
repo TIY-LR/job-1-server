@@ -13,6 +13,7 @@ namespace JobTracker.Models
         public Org Org { get; set; }
         public Position Position { get; set; }
         public Resume Resume { get; set; }
+        public Profile Profile { get; set; }
     }
         
 }

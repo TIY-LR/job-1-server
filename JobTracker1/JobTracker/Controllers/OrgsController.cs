@@ -37,7 +37,7 @@ namespace JobTracker.Controllers
                                   contacts = o.Contacts,
                                   positions = o.Positions
                               };
-            return new { Org = displaylist };
+            return new { organization = displaylist };
         }
 
         // GET: api/Orgs/5
@@ -66,24 +66,24 @@ namespace JobTracker.Controllers
             {
                 return NotFound();
             }
-            return Ok(new { org = display });
+            return Ok(new { organization = display });
         }
 
         // PUT: api/Orgs/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutOrg(int id, Org org)
+        public IHttpActionResult PutOrg(int id, RootObject rootobject)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != org.Id)
+            if (id != rootobject.Org.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(org).State = EntityState.Modified;
+            db.Entry(rootobject.Org).State = EntityState.Modified;
 
             try
             {

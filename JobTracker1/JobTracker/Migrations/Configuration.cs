@@ -52,8 +52,8 @@
 
             context.Positions.AddOrUpdate(
                 x => x.Title,
-                new Position { Id = 1, Title = "Explosives Engineer", Contact_Id = 1, Org_Id = 1, Education = "Bachelor's in Engineering from Accredited University", Experience = "3 - 5 years", Description = "Do you love blowing stuff up?  Then this job is for you!", SalaryMax = 100000, SalaryMin = 60000 },
-                new Position { Id = 2, Title = "Overseas Charity Worker", Contact_Id = 2, Org_Id = 2, Education = "HS Diploma, Bachelor's degree preferred", Description = "If you love helping people, come join our team!", Experience = "none required but prefer community volunteer experience", SalaryMin = 100, SalaryMax = 20000 }
+                new Position { Title = "Explosives Engineer", Contact_Id = 1, Org_Id = 1, Education = "Bachelor's in Engineering from Accredited University", Experience = "3 - 5 years", Description = "Do you love blowing stuff up?  Then this job is for you!", SalaryMax = 100000, SalaryMin = 60000 },
+                new Position { Title = "Overseas Charity Worker", Contact_Id = 2, Org_Id = 2, Education = "HS Diploma, Bachelor's degree preferred", Description = "If you love helping people, come join our team!", Experience = "none required but prefer community volunteer experience", SalaryMin = 100, SalaryMax = 20000 }
                 );
 
             context.Events.AddOrUpdate(
@@ -61,7 +61,12 @@
                 new Event { Title = "Interview at Acme", Date = DateTime.Now, Time = DateTime.Now, Org_Id = 1, Contact_Id = 1, Position_Id = 1 },
                 new Event { Title = "Site Visit at PeaceLove", Date = DateTime.Now, Time = DateTime.Now, Org_Id = 2, Contact_Id = 2, Position_Id = 2 }
                 );
-           
+
+            context.Profiles.AddOrUpdate(
+                new Profile { FirstName = "Daniel", LastName = "Condit", Phone = "501-867-5309", Email = "danieljcondit@gmail.com", Org_Id = 2 },
+                new Profile { FirstName = "Scott", LastName = "Green", Phone = "501-743-3379", Email = "scottgreen555@gmail.com", Org_Id = 1 },
+                new Profile { FirstName = "Mike", LastName = "Null", Phone = "501-712-6723", Email = "michael.null@bpmw.net", Org_Id = 1 }
+                );
                 
 
         }

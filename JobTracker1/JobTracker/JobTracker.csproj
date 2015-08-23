@@ -221,6 +221,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrgsController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
+    <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Controllers\ResumesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -254,6 +255,10 @@
     <Compile Include="Migrations\201508231656598_six.Designer.cs">
       <DependentUpon>201508231656598_six.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508231831473_seven.cs" />
+    <Compile Include="Migrations\201508231831473_seven.Designer.cs">
+      <DependentUpon>201508231831473_seven.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -262,6 +267,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Org.cs" />
     <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\Resume.cs" />
     <Compile Include="Models\RootObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -359,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508231656598_six.resx">
       <DependentUpon>201508231656598_six.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508231831473_seven.resx">
+      <DependentUpon>201508231831473_seven.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
