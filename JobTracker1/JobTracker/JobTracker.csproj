@@ -258,9 +258,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Database1.mdf" />
-    <Content Include="App_Data\Database1_log.ldf">
-      <DependentUpon>Database1.mdf</DependentUpon>
+    <Content Include="App_Data\aspnet-JobTracker-20150821074021.mdf" />
+    <Content Include="App_Data\aspnet-JobTracker-20150821074021_log.ldf">
+      <DependentUpon>aspnet-JobTracker-20150821074021.mdf</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
