@@ -14,8 +14,11 @@ namespace JobTracker.Models
         public bool IsOpen { get; set; }
         public string Notes { get; set; }
         public Contact Contact { get; set; }
-        public Org Organization { get; set; }
+        public int? Contact_Id { get; set; }
+        public Org Org { get; set; }
+        public int? Org_Id { get; set; }
         public Position Position { get; set; }
+        public int? Position_Id { get; set; }
         public Resume Resume { get; set; }
     }
 }

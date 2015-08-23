@@ -28,11 +28,11 @@ namespace JobTracker.Controllers
                               title = e.Title,
                               date = e.Date,
                               time = e.Time,
-                              location = e.Organization.Name,
+                              location = e.Org.Name,
                               job = e.Position.Title,
-                              contact = e.Contact.FirstName + " " + e.Contact.LastName,
+                              contact = e.Contact.FirstName + " " + e.Contact.LastName
                           };
-            return new {events = display };
+            return new {@event = display };
         }
 
         // GET: api/Events/5
@@ -47,12 +47,9 @@ namespace JobTracker.Controllers
                               title = e.Title,
                               date = e.Date,
                               time = e.Time,
-                              location = e.Organization.Name,
-                              orgId = e.Organization.Id,
+                              location = e.Org.Name,
                               job = e.Position.Title,
-                              positionId = e.Position.Id,
-                              contact = e.Contact.FirstName + " " + e.Contact.LastName,
-                              contactId = e.Contact.Id
+                              contact = e.Contact.FirstName + " " + e.Contact.LastName
                           };
             if (display == null)
             {

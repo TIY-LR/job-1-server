@@ -20,22 +20,48 @@ namespace JobTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Positions
-        public IQueryable<Position> GetPositions()
+        public object GetPositions()
         {
-            return db.Positions;
+            var display = from p in db.Positions
+                          select new
+                          {
+                              id = p.Id,
+                              title = p.Title,
+                              org = p.Org.Name,
+                              education = p.Education,
+                              experience = p.Experience,
+                              salaryMax = p.SalaryMax,
+                              salaryMin = p.SalaryMin,
+                              description = p.Description,
+                              contact = p.Contact.FirstName + " " + p.Contact.LastName,
+                          };
+            return new { positions = display };
         }
 
         // GET: api/Positions/5
         [ResponseType(typeof(Position))]
         public IHttpActionResult GetPosition(int id)
         {
-            Position position = db.Positions.Find(id);
-            if (position == null)
+            var display = from p in db.Positions
+                          where p.Id == id
+                          select new
+                          {
+                              id = p.Id,
+                              title = p.Title,
+                              org = p.Org.Name,
+                              education = p.Education,
+                              experience = p.Experience,
+                              salaryMax = p.SalaryMax,
+                              salaryMin = p.SalaryMin,
+                              description = p.Description,
+                              contact = p.Contact.FirstName + " " + p.Contact.LastName,
+                          };
+            if (display == null)
             {
                 return NotFound();
             }
 
-            return Ok(position);
+            return Ok(new { @event = display });
         }
 
         // PUT: api/Positions/5
