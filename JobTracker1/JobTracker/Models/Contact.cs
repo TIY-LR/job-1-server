@@ -20,6 +20,7 @@ namespace JobTracker.Models
         public string State { get; set; }
         public string Zip { get; set; }
         public Org Organization { get; set; }
+        public int? Org_Id { get; set; }
     }
    
 }
