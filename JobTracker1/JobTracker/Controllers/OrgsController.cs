@@ -19,22 +19,54 @@ namespace JobTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Orgs
-        public IQueryable<Org> GetOrgs()
+        public object GetOrgs()
         {
-            return db.Orgs;
+            var displaylist = from o in db.Orgs
+                              select new
+                              {
+                                  id = o.Id,
+                                  name = o.Name,
+                                  website = o.Website,
+                                  phone = o.Phone,
+                                  addressOne = o.Address1,
+                                  addressTwo = o.Address2,
+                                  city = o.City,
+                                  state = o.State,
+                                  zip = o.Zip,
+                                  email = o.Email,
+                                  contacts = o.Contacts,
+                                  positions = o.Positions
+                              };
+            return new { Org = displaylist };
         }
 
         // GET: api/Orgs/5
         [ResponseType(typeof(Org))]
-        public IHttpActionResult GetOrg(int id)
+        public object GetOrg(int id)
         {
-            Org org = db.Orgs.Find(id);
-            if (org == null)
+            var display = from o in db.Orgs
+                          where o.Id == id
+                          select new
+                          {
+                              id = o.Id,
+                              name = o.Name,
+                              website = o.Website,
+                              phone = o.Phone,
+                              addressOne = o.Address1,
+                              addressTwo = o.Address2,
+                              city = o.City,
+                              state = o.State,
+                              zip = o.Zip,
+                              email = o.Email,
+                              contacts = o.Contacts,
+                              positions = o.Positions
+                          };
+
+            if (display == null)
             {
                 return NotFound();
             }
-
-            return Ok(org);
+            return Ok(new { org = display });
         }
 
         // PUT: api/Orgs/5

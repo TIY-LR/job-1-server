@@ -45,11 +45,6 @@ namespace JobTracker.Controllers
         [ResponseType(typeof(object))]
         public object GetContact(int id)
         {
-            var contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
             var display = from c in db.Contacts
                           where c.Id == id
                           select new
@@ -67,6 +62,11 @@ namespace JobTracker.Controllers
                               state = c.State,
                               zip = c.Zip
                           };
+
+            if (display == null)
+            {
+                return NotFound();
+            }
             return Ok(new {contact = display });
         }
 

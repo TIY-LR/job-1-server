@@ -8,9 +8,9 @@ namespace JobTracker.Models
     public class Resume
     {
         public int Id { get; set; }
-        public DateTime date { get; set; }
-        public string title { get; set; }
-        public string content { get; set; }
-        public byte[] file { get; set; }
+        public DateTime Date { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public byte[] File { get; set; }
     }
 }

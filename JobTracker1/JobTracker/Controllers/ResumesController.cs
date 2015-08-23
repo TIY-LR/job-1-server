@@ -19,22 +19,33 @@ namespace JobTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Resumes
-        public IQueryable<Resume> GetResumes()
+        public object GetResumes()
         {
-            return db.Resumes;
+            var result = from r in db.Resumes
+                         select new {id = r.Id, title = r.Title, date = r.Date, info = r.Content, file = r.File };
+            return new {resume = result };
         }
 
         // GET: api/Resumes/5
         [ResponseType(typeof(Resume))]
         public IHttpActionResult GetResume(int id)
         {
-            Resume resume = db.Resumes.Find(id);
-            if (resume == null)
+            var display = from r in db.Resumes
+                          where r.Id == id
+                          select new
+                          {
+                              id = r.Id,
+                              title = r.Title,
+                              date = r.Date,
+                              info = r.Title,
+                              file = r.File
+                          };
+
+            if (display == null)
             {
                 return NotFound();
             }
-
-            return Ok(resume);
+            return Ok(new { resume = display });
         }
 
         // PUT: api/Resumes/5
