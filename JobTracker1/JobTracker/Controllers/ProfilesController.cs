@@ -96,7 +96,7 @@ namespace JobTracker.Controllers
         [ResponseType(typeof(RootObject))]
         public IHttpActionResult PostProfile(RootObject rootobject)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || rootobject.Profile == null)
             {
                 return BadRequest(ModelState);
             }
