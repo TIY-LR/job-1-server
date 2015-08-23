@@ -109,7 +109,7 @@ namespace JobTracker.Controllers
         [ResponseType(typeof(RootObject))]
         public IHttpActionResult PostContact(RootObject rootcontact)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || rootcontact.Contact == null)
             {
                 return BadRequest(ModelState);      
             }
@@ -135,7 +135,7 @@ namespace JobTracker.Controllers
             db.SaveChanges();
             RootObject rootobject = new RootObject();
             rootobject.Contact = contact;
-            return Ok(rootobject.Contact);
+            return Ok(rootobject);
         }
 
         protected override void Dispose(bool disposing)

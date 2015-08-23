@@ -131,8 +131,10 @@ namespace JobTracker.Controllers
 
             db.Orgs.Remove(org);
             db.SaveChanges();
+            RootObject rootobject = new RootObject();
+            rootobject.Org = org;
 
-            return Ok(org);
+            return Ok(rootobject);
         }
 
         protected override void Dispose(bool disposing)

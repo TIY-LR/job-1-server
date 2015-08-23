@@ -67,19 +67,19 @@ namespace JobTracker.Controllers
 
         // PUT: api/Positions/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPosition(int id, Position position)
+        public IHttpActionResult PutPosition(int id, RootObject rootobject)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != position.Id)
+            if (id != rootobject.Position.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(position).State = EntityState.Modified;
+            db.Entry(rootobject.Position).State = EntityState.Modified;
 
             try
             {
@@ -127,8 +127,10 @@ namespace JobTracker.Controllers
 
             db.Positions.Remove(position);
             db.SaveChanges();
+            RootObject rootobject = new RootObject();
+            rootobject.Position = position;
 
-            return Ok(position);
+            return Ok(rootobject);
         }
 
         protected override void Dispose(bool disposing)

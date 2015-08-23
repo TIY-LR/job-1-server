@@ -61,19 +61,19 @@ namespace JobTracker.Controllers
 
         // PUT: api/Events/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutEvent(int id, Event @event)
+        public IHttpActionResult PutEvent(int id, RootObject rootobject)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != @event.Id)
+            if (id != rootobject.Event.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(@event).State = EntityState.Modified;
+            db.Entry(rootobject.Event).State = EntityState.Modified;
 
             try
             {
@@ -98,7 +98,7 @@ namespace JobTracker.Controllers
         [ResponseType(typeof(RootObject))]
         public IHttpActionResult PostEvent(RootObject rootevent)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || rootevent.Event == null)
             {
                 return BadRequest(ModelState);
             }
@@ -121,8 +121,10 @@ namespace JobTracker.Controllers
 
             db.Events.Remove(@event);
             db.SaveChanges();
+            RootObject rootobject = new RootObject();
+            rootobject.Event = @event;
 
-            return Ok(@event);
+            return Ok(rootobject);
         }
 
         protected override void Dispose(bool disposing)
