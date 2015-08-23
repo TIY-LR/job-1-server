@@ -81,3 +81,5 @@ C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Rel
 C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Release\JobTracker.Migrations.Initial.resources
 C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Release\JobTracker.csproj.GenerateResource.Cache
 C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Release\JobTracker.Migrations.two.resources
+C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Release\JobTracker.Migrations.two1.resources
+C:\Users\Mike\Desktop\The Iron Yard\group project\JobTracker1\JobTracker\obj\Release\JobTracker.Migrations.three.resources
